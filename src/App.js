@@ -1,23 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function App() {
+  const [ text, setText ] = useState('');
+  
+  useEffect(() => {
+    fetch('http://blog.api/Tag/17/')
+      .then(response => {
+        console.log('response:', response);
+        
+        return response.text()
+      })
+      .then(content => {
+        console.log('content:', content);
+        
+        return setText(content)
+      });
+  }, []);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {text}
     </div>
   );
 }
